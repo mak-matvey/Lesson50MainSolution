@@ -12,31 +12,25 @@ int* find_last_local_min(int** matrix, int n, int m)
         for (int j = 0; j < m; j++)
         {
             int current = matrix[i][j];
+            bool is_local_min = true;
 
-            if (i - 1 >= 0 && matrix[i - 1][j] <= current)
+            if (i - 1 >= 0 && matrix[i - 1][j] <= current
+                || i + 1 < n && matrix[i + 1][j] <= current
+                || j - 1 >= 0 && matrix[i][j - 1] <= current
+                || j + 1 < m && matrix[i][j + 1] <= current)
             {
-                continue;
-            }
-            if (i + 1 < n && matrix[i + 1][j] <= current)
-            {
-                continue;
-            }
-            if (j - 1 >= 0 && matrix[i][j - 1] <= current)
-            {
-                continue;
-            }
-            if (j + 1 < m && matrix[i][j + 1] <= current)
-            {
-                continue;
+                is_local_min = false;
             }
 
-            if (cords == nullptr)
+            if (is_local_min)
             {
-                cords = new int[2];
+                if (cords == nullptr)
+                {
+                    cords = new int[2];
+                }
+                cords[0] = i;
+                cords[1] = j;
             }
-
-            cords[0] = i;
-            cords[1] = j;
         }
     }
 
